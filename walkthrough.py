@@ -1,26 +1,29 @@
 import hashlib
 import json
-from time import time
+import time
 
 class Blockchain(object):
     def __init__(self):
         self.chain = []
         self.pending_transactions = []
+        self.block_hash = []
 
-        self.new_block(previous_hash="The Times 03/Jan/2009 Chancellor on brink of second bailout for banks.", proof=100)
+        self.new_block(previous_hash="0x0000000000000000000000000000000000000000000000000000000000000000", proof=100)
 
 # Create a new block listing key/value pairs of block information in a JSON object. Reset the list of pending transactions & append the newest block to the chain.
-
-    def new_block(self, proof, previous_hash=None):
+#"Konya Bilim Merkezi 11. Bilim Festivali"
+    def new_block(self, proof, previous_hash = None):
         block = {
             'index': len(self.chain) + 1,
-            'timestamp': time(),
+            'timestamp': time.asctime(),
             'transactions': self.pending_transactions,
             'proof': proof,
-            'previous_hash': previous_hash or self.hash(self.chain[-1]),
+            'previous_hash': previous_hash or self.chain[-1]['hash'] ,
         }
         self.pending_transactions = []
+        block['hash'] = self.hash(block)
         self.chain.append(block)
+        
 
         return block
 
@@ -50,19 +53,28 @@ class Blockchain(object):
 
         raw_hash = hashlib.sha256(block_string)
         hex_hash = raw_hash.hexdigest()
+        
+        
 
         return hex_hash
 
 
 blockchain = Blockchain()
-t1 = blockchain.new_transaction("Satoshi", "Mike", '5 BTC')
-t2 = blockchain.new_transaction("Mike", "Satoshi", '1 BTC')
-t3 = blockchain.new_transaction("Satoshi", "Hal Finney", '5 BTC')
+
+
+#t1 = blockchain.new_transaction("Satoshi", "Mike", '5 BTC')
+#t2 = blockchain.new_transaction("Mike", "Satoshi", '1 BTC')
+#t3 = blockchain.new_transaction("Satoshi", "Hal Finney", '5 BTC')
 blockchain.new_block(12345)
 
+"""
 t4 = blockchain.new_transaction("Mike", "Alice", '1 BTC')
 t5 = blockchain.new_transaction("Alice", "Bob", '0.5 BTC')
 t6 = blockchain.new_transaction("Bob", "Mike", '0.5 BTC')
+blockchain.new_block(6789)"""
+
 blockchain.new_block(6789)
 
-print("Genesis block: ", blockchain.chain)
+print("Genesis block: ", blockchain.chain[0])
+print("Second block: ", blockchain.chain[1])
+print("Third block: ", blockchain.chain[2])
