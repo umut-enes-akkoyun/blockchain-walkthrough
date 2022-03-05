@@ -49,7 +49,6 @@ class Blockchain(object):
         block_string = string_object.encode()
         raw_hash = hashlib.sha256(block_string)
         hex_hash = raw_hash.hexdigest()
-
         return hex_hash
 
 blockchain = Blockchain()
