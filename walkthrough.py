@@ -40,6 +40,7 @@ class Blockchain(object):
             'recipient': recipient,
             'amount': amount }
         self.pending_transactions.append(transaction)
+        
         return self.last_block['index'] + 1
 
 # receive one block. Turn it into a string, turn that into Unicode (for hashing). Hash with SHA256 encryption, then translate the Unicode into a hexidecimal string.
@@ -65,4 +66,5 @@ for block_sayi in range(1,5):
         if last_blockxx != len(blockchain.chain):
             last_blockxx = len(blockchain.chain)
             break
+            
     print("{block_sayi}. block: ", blockchain.chain[block_sayi])
