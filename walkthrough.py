@@ -57,11 +57,8 @@ last_blockxx = len(blockchain.chain)
 print("Genesis block: ", blockchain.chain[0])
 
 for block_sayi in range(1,5):
-    from_user = input("From : ")
-    to_user = input("\nto : ")
-    amount = input("\nBTC amount :")
     for i in range(1000000000):
-        t1 = blockchain.new_transaction(from_user, to_user , amount +  'BTC')
+        t1 = blockchain.new_transaction('Umut', 'Satoshi' , '5 BTC')
         blockchain.new_block(i)
         if last_blockxx != len(blockchain.chain):
             last_blockxx = len(blockchain.chain)
