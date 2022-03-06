@@ -8,7 +8,7 @@ class Blockchain(object):
         self.pending_transactions = []
         self.new_block(previous_hash="Konya Bilim Merkezi 11. Bilim Festivali", proof = 100)
 
-# Create a new block listing key/value pairs of block information in a JSON object. Reset the list of pending transactions & append the newest block to the chain.
+#yeni blok oluşturmak JSON formatında. Bunu zincire eklemek.
     def new_block(self, proof, previous_hash = None):
         block = {
             'index': len(self.chain) + 1,
@@ -18,22 +18,20 @@ class Blockchain(object):
             'previous_hash': previous_hash or self.chain[-1]['hash'] ,
         }
         self.pending_transactions = []
-        block['hash'] = self.hash(block)
+        block['hash'] = self.hash(block) #tüm bloğun alınmış hashi kendi içine ekstra olak eklenir
         if len(self.chain) == 0:
             self.chain.append(block)
 
-        elif block['hash'][-3:] == "f11":
+        elif block['hash'][-3:] == "f11": #11. festivale özel sonu f11 ile biten mdancilik mekanizması
             self.chain.append(block)
 
         return block
 
-#Search the blockchain for the most recent block.
     @property
     def last_block(self):
         return self.chain[-1]
 
-# Add a transaction with relevant info to the 'blockpool' - list of pending tx's. 
-
+#transfer sırası
     def new_transaction(self, sender, recipient, amount):
         transaction = {
             'sender': sender,
@@ -43,8 +41,7 @@ class Blockchain(object):
         
         return self.last_block['index'] + 1
 
-# receive one block. Turn it into a string, turn that into Unicode (for hashing). Hash with SHA256 encryption, then translate the Unicode into a hexidecimal string.
-
+#tüm bloğun hashi alınır
     def hash(self, block):
         string_object = json.dumps(block, sort_keys=True)
         block_string = string_object.encode()
